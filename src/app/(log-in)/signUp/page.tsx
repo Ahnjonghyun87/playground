@@ -1,7 +1,7 @@
-import { POST } from "@/app/apis/signUp/route";
+"use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useMutation } from "../../../../node_modules/@tanstack/react-query/src/useMutation";
 
 interface SignUp {
   email: string;
@@ -11,7 +11,19 @@ interface SignUp {
 
 const SignUpPage = () => {
   const { mutate } = useMutation({
-    mutationFn: POST,
+    mutationFn: async (data: SignUp) => {
+      const response = await fetch("/api/signUp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // SignUp 데이터를 API에 전송
+      });
+      if (!response.ok) {
+        throw new Error("회원가입에 실패했습니다.");
+      }
+      return response.json();
+    },
     onError: () => {
       alert("회원 가입에 실패했습니다.");
     },
@@ -23,9 +35,9 @@ const SignUpPage = () => {
   const { register, handleSubmit, formState } = useForm<SignUp>({
     mode: "onChange",
     defaultValues: {
-      email: "adcd@email.com",
+      email: "",
       nickname: "",
-      password: "1234abcd",
+      password: "",
     },
   });
 
@@ -33,8 +45,9 @@ const SignUpPage = () => {
     mutate(value);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
+    <form onSubmit={handleSubmit(onSubmit)} className="grid justify-center">
+      <div className="border rounded-xl ">
+        <label htmlFor="email">이메일</label>
         <input
           {...register("email", {
             required: { value: true, message: "이메일이 필요합니다" },
@@ -51,6 +64,7 @@ const SignUpPage = () => {
         )}
       </div>
       <div>
+        <label htmlFor="nickname">닉네임</label>
         <input
           {...register("nickname", { required: true })}
           placeholder="닉네임을 입력하세요"
@@ -61,6 +75,7 @@ const SignUpPage = () => {
         )}
       </div>
       <div>
+        <label htmlFor="password">패스워드</label>
         <input
           {...register("password", { required: true })}
           placeholder="비밀번호를 입력하세요"

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import HeaderLayoutPage from "./(header)/page";
 import Providers from "./components/common/Providers/QueryProvider";
 import { ModalProvider } from "./context/modal.context";
 import "./globals.css";
+import HeaderLayoutPage from "./header/page";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
