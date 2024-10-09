@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import HeaderLayoutPage from "./(header)/page";
+import Providers from "./components/common/Providers/QueryProvider";
+import { ModalProvider } from "./context/modal.context";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -25,11 +28,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <Providers>
+        <ModalProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <HeaderLayoutPage />
+            {children}
+          </body>
+        </ModalProvider>
+      </Providers>
     </html>
   );
 }
