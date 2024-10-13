@@ -9,42 +9,83 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      products: {
+      users: {
         Row: {
-          description: string | null
-          id: number
-          image_url: string | null
-          is_new: boolean | null
-          price_amount: number | null
-          rating: number | null
-          seo_description: string | null
-          seo_title: string | null
-          title: string | null
-          user_id: string | null
+          address: string | null
+          created_at: string
+          email: string | null
+          id: string
+          nickname: string | null
+          phone_number: string | null
         }
         Insert: {
-          description?: string | null
-          id?: number
-          image_url?: string | null
-          is_new?: boolean | null
-          price_amount?: number | null
-          rating?: number | null
-          seo_description?: string | null
-          seo_title?: string | null
-          title?: string | null
-          user_id?: string | null
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nickname?: string | null
+          phone_number?: string | null
         }
         Update: {
-          description?: string | null
+          address?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nickname?: string | null
+          phone_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users_gecko: {
+        Row: {
+          behavior: string | null
+          birth_day: string | null
+          eating: string | null
+          father: string | null
+          gender: string | null
+          id: number
+          mature: boolean | null
+          morph: string | null
+          mother: string | null
+          pictures: string | null
+          vids: string | null
+          weight: string | null
+        }
+        Insert: {
+          behavior?: string | null
+          birth_day?: string | null
+          eating?: string | null
+          father?: string | null
+          gender?: string | null
           id?: number
-          image_url?: string | null
-          is_new?: boolean | null
-          price_amount?: number | null
-          rating?: number | null
-          seo_description?: string | null
-          seo_title?: string | null
-          title?: string | null
-          user_id?: string | null
+          mature?: boolean | null
+          morph?: string | null
+          mother?: string | null
+          pictures?: string | null
+          vids?: string | null
+          weight?: string | null
+        }
+        Update: {
+          behavior?: string | null
+          birth_day?: string | null
+          eating?: string | null
+          father?: string | null
+          gender?: string | null
+          id?: number
+          mature?: boolean | null
+          morph?: string | null
+          mother?: string | null
+          pictures?: string | null
+          vids?: string | null
+          weight?: string | null
         }
         Relationships: []
       }

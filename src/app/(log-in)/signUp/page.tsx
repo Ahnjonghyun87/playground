@@ -19,6 +19,7 @@ const SignUpPage = () => {
         },
         body: JSON.stringify(data), // SignUp 데이터를 API에 전송
       });
+      console.log(response);
       if (!response.ok) {
         throw new Error("회원가입에 실패했습니다.");
       }
@@ -41,12 +42,15 @@ const SignUpPage = () => {
     },
   });
 
-  const onSubmit = (value: SignUp) => {
-    mutate(value);
+  const onSubmit = (data: SignUp) => {
+    mutate(data);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid justify-center">
-      <div className="border rounded-xl ">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid justify-center py-16"
+    >
+      <div className="border rounded-xl mb-1">
         <label htmlFor="email">이메일</label>
         <input
           {...register("email", {
@@ -63,18 +67,18 @@ const SignUpPage = () => {
           <span>{formState.errors.email.message}</span>
         )}
       </div>
-      <div>
+      <div className="border rounded-xl mb-1">
         <label htmlFor="nickname">닉네임</label>
         <input
           {...register("nickname", { required: true })}
           placeholder="닉네임을 입력하세요"
-          type="nickname"
+          type="text"
         ></input>
         {formState.errors.nickname && (
           <span>{formState.errors.nickname.message}</span>
         )}
       </div>
-      <div>
+      <div className="border rounded-xl mb-1">
         <label htmlFor="password">패스워드</label>
         <input
           {...register("password", { required: true })}
@@ -85,6 +89,7 @@ const SignUpPage = () => {
           <span>{formState.errors.password.message}</span>
         )}
       </div>
+      <button type="submit">sign-in</button>
     </form>
   );
 };
