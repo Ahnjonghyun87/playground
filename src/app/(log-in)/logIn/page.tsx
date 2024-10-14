@@ -1,4 +1,6 @@
 "use client";
+
+import { useAuthStore } from "@/app/zustand/userAuthStore";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -10,6 +12,7 @@ interface LogIn {
 
 const LogInPage = () => {
   const route = useRouter();
+  const { logIn } = useAuthStore();
   const { mutate } = useMutation({
     mutationFn: async (data: LogIn) => {
       const response = await fetch("/api/logIn", {
@@ -28,7 +31,10 @@ const LogInPage = () => {
     onError: () => {
       alert("로그인에 실패했습니다.");
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // 응답에서 유저 정보를 추출 (예: email 또는 id)
+      const user = data?.user?.email || "defaultUser"; // 응답에 따라 수정
+      logIn(user); // 유저 정보를 logIn 함수에 전달
       alert("로그인에 성공했습니다.");
       route.push("/");
     },
