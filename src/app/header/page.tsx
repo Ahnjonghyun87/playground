@@ -1,11 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import SignUpPage from "../(log-in)/signUp/page";
+import { useModal } from "../context/modal.context";
 import { useAuthStore } from "../zustand/userAuthStore";
 
 const HeaderLayoutPage = () => {
+  const modal = useModal();
   const { isLoggedIn, logOut } = useAuthStore();
   const route = useRouter();
+
   const handleLogOut = async () => {
     try {
       const response = await fetch("/api/logOut", {
@@ -32,10 +36,13 @@ const HeaderLayoutPage = () => {
     route.push("logIn");
   };
   const handleSignUp = () => {
-    route.push("signUp");
+    modal.open({
+      title: "Sign Up",
+      content: <SignUpPage />,
+    });
   };
   return (
-    <main className="fixed py-2 z-50 w-full flex justify-between px-4">
+    <main className="fixed py-2 z-50 w-full flex justify-between px-4 bg-amber-500">
       <div className="p-4">오늘의 날씨:</div>
       <div className="p-4 flex space-x-4">
         {isLoggedIn ? (
