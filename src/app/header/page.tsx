@@ -1,12 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import SignUpPage from "../(log-in)/signUp/page";
-import { useModal } from "../context/modal.context";
 import { useAuthStore } from "../zustand/userAuthStore";
 
 const HeaderLayoutPage = () => {
-  const modal = useModal();
   const { isLoggedIn, logOut } = useAuthStore();
   const route = useRouter();
 
@@ -36,10 +33,7 @@ const HeaderLayoutPage = () => {
     route.push("logIn");
   };
   const handleSignUp = () => {
-    modal.open({
-      title: "Sign Up",
-      content: <SignUpPage />,
-    });
+    route.push("signUp");
   };
   return (
     <main className="fixed py-2 z-50 w-full flex justify-between px-4 bg-amber-500">
