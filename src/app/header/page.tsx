@@ -1,11 +1,32 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import browserClient from "../utils/supabase/client";
 import { useAuthStore } from "../zustand/userAuthStore";
 
 const HeaderLayoutPage = () => {
-  const { isLoggedIn, logOut } = useAuthStore();
+  const { isLoggedIn, logOut, logIn } = useAuthStore();
   const route = useRouter();
+  useEffect(() => {
+    const checkSession = async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { data, error } = await browserClient.auth.getSession();
+      if (data?.session) {
+        const email = data.session.user.email;
+        // email이 존재할 때만 logIn 호출
+        if (email) {
+          logIn(email);
+        } else {
+          console.error("User email is undefined");
+        }
+      } else {
+        logOut();
+      }
+    };
+
+    checkSession();
+  }, [logIn, logOut]);
 
   const handleLogOut = async () => {
     try {
@@ -35,8 +56,12 @@ const HeaderLayoutPage = () => {
   const handleSignUp = () => {
     route.push("signUp");
   };
+  const handleGeckoInform = () => {
+    route.push("reptileInform");
+  };
+
   return (
-    <main className="fixed py-2 z-50 w-full flex justify-between px-4 bg-amber-500">
+    <main className="fixed z-50 w-full flex justify-between bg-amber-500">
       <div className="p-4">오늘의 날씨:</div>
       <div className="p-4 flex space-x-4">
         {isLoggedIn ? (
@@ -52,6 +77,24 @@ const HeaderLayoutPage = () => {
               sign-up
             </button>
           </div>
+        )}
+        {isLoggedIn ? (
+          <div className="p-4 cursor-pointer group relative ">
+            메뉴
+            <ul className="absolute  hidden group-hover:block bg-white cursor-pointer tracking-wide border rounded-xl">
+              <li className="py-1 hover:text-amber-700 px-4">마이페이지</li>
+              <li
+                className="py-1 hover:text-amber-700 px-4"
+                onClick={handleGeckoInform}
+              >
+                개체등록
+              </li>
+              <li className="py-1 hover:text-amber-700 px-4">개체관리</li>
+              <li className="py-1 hover:text-amber-700 px-4">게시판</li>
+            </ul>
+          </div>
+        ) : (
+          ""
         )}
       </div>
     </main>

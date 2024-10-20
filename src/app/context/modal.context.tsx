@@ -12,8 +12,10 @@ import CommonModal from "../components/common/modal/CommonModal";
 type ModalProps = {
   title: string;
   content: ReactNode | null;
+  children: React.ReactNode | null;
   path?: string;
   type?: "normal" | "confirm";
+  size?: "small" | "medium" | "large";
   onClose?: () => void;
 };
 
@@ -65,7 +67,10 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
           path={modalOptions.path}
           type={modalOptions.type}
           onClose={modalOptions.onClose}
-        />
+          size={modalOptions.size}
+        >
+          {modalOptions.children}
+        </CommonModal>
       )}
       {confirmOptions && (
         <CommonModal
@@ -74,7 +79,10 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
           path={confirmOptions.path}
           type={confirmOptions.type}
           onClose={confirmOptions.onClose}
-        />
+          size={confirmOptions.size}
+        >
+          {confirmOptions.children}
+        </CommonModal>
       )}
     </ModalContext.Provider>
   );
