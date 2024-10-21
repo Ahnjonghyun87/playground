@@ -3,6 +3,17 @@ import { useForm } from "react-hook-form";
 interface AddNewReptile {
   name: string;
   birthday: string;
+  mother: string;
+  father: string;
+  morph: string | null;
+  gender: string | null;
+  eatInsect: boolean;
+  behavior: string | null;
+  eating: string | null;
+  matuare: boolean;
+  weight: string | null;
+  picture: string | null;
+  vids: string | null;
 }
 
 const ReptileInform = () => {
@@ -11,6 +22,17 @@ const ReptileInform = () => {
     defaultValues: {
       name: "",
       birthday: "",
+      mother: "",
+      father: "",
+      morph: "",
+      gender: "",
+      behavior: "",
+      eatInsect: false,
+      eating: "",
+      matuare: false,
+      weight: "",
+      picture: null,
+      vids: null,
     },
   });
   const onSubmit = () => {};
