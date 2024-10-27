@@ -62,39 +62,53 @@ const HeaderLayoutPage = () => {
 
   return (
     <main className="fixed z-50 w-full flex justify-between bg-amber-500">
-      <div className="p-4">오늘의 날씨:</div>
+      <div className="p-5 border rounded-xl">오늘의 날씨:</div>
       <div className="p-4 flex space-x-4">
+        {isLoggedIn ? (
+          <div className="p-4 cursor-pointer group relative">
+            메뉴
+            <ul className="absolute hidden group-hover:flex flex-row bg-white cursor-pointer tracking-wide border rounded-xl p-2 right-0 left-auto">
+              <li className="hover:text-amber-700 px-4 whitespace-nowrap">
+                마이페이지
+              </li>
+              <li
+                className="hover:text-amber-700 px-4 whitespace-nowrap"
+                onClick={handleGeckoInform}
+              >
+                개체등록
+              </li>
+              <li className="hover:text-amber-700 px-4 whitespace-nowrap">
+                개체관리
+              </li>
+              <li className="hover:text-amber-700 px-4 whitespace-nowrap">
+                게시판
+              </li>
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
         {isLoggedIn ? (
           <button type="button" onClick={handleLogOut}>
             log-out
           </button>
         ) : (
-          <div>
-            <button type="button" onClick={handleLogIn}>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              onClick={handleLogIn}
+              className="border rounded-xl p-2"
+            >
               log-in
             </button>{" "}
-            <button type="button" onClick={handleSignUp}>
+            <button
+              type="button"
+              onClick={handleSignUp}
+              className="border rounded-xl p-2"
+            >
               sign-up
             </button>
           </div>
-        )}
-        {isLoggedIn ? (
-          <div className="p-4 cursor-pointer group relative ">
-            메뉴
-            <ul className="absolute  hidden group-hover:block bg-white cursor-pointer tracking-wide border rounded-xl">
-              <li className="py-1 hover:text-amber-700 px-4">마이페이지</li>
-              <li
-                className="py-1 hover:text-amber-700 px-4"
-                onClick={handleGeckoInform}
-              >
-                개체등록
-              </li>
-              <li className="py-1 hover:text-amber-700 px-4">개체관리</li>
-              <li className="py-1 hover:text-amber-700 px-4">게시판</li>
-            </ul>
-          </div>
-        ) : (
-          ""
         )}
       </div>
     </main>
