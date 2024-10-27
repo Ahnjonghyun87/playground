@@ -43,7 +43,7 @@ const ReptileInform = () => {
         mother: "",
         father: "",
         morph: "",
-        gender: "",
+        gender: "미구분",
         behavior: "",
         eatInsect: false,
         eating: "",
@@ -142,13 +142,43 @@ const ReptileInform = () => {
           </div>
           <div className="pb-1">
             <label htmlFor="gender">성별</label>
-            <input
-              {...register("gender")}
-              placeholder="성별을 입력하세요"
-              type="text"
-              id="gender"
-              className="border rounded w-full py-2 px-3"
-            />
+            <div className="flex gap-6 mt-2">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("gender")}
+                  value="미구분"
+                  type="radio"
+                  id="gender-unselected"
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">미구분</span>
+              </label>
+
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("gender")}
+                  value="수컷"
+                  type="radio"
+                  id="gender-male"
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">수컷</span>
+              </label>
+
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("gender")}
+                  value="암컷"
+                  type="radio"
+                  id="gender-female"
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">암컷</span>
+              </label>
+            </div>
           </div>
           <div className="pb-1">
             <label htmlFor="behavior">버릇</label>
