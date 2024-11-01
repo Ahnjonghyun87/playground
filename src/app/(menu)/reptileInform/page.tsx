@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 
 const ReptileInform = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [eatInsectValue, setEatInsectValue] = useState<boolean | null>(null);
+  const [Mature, setMature] = useState<boolean | null>(null);
 
   const { mutate } = useMutation({
     mutationFn: async (data: Users_gecko) => {
@@ -55,7 +57,12 @@ const ReptileInform = () => {
     });
 
   const onSubmit = (data: Users_gecko) => {
-    mutate(data);
+    const formattedData = {
+      ...data,
+      birthday: data.birthday === "" ? null : data.birthday,
+    };
+
+    mutate(formattedData);
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -126,19 +133,12 @@ const ReptileInform = () => {
           <div className="pb-1">
             <label htmlFor="morph">모프</label>
             <input
-              {...register("morph", {
-                required: "모프를 선택하세요",
-              })}
+              {...register("morph")}
               placeholder="모프를 선택하세요"
               type="text"
               id="morph"
               className="border rounded w-full py-2 px-3"
             />
-            {formState.errors.morph && (
-              <span className="text-red-500">
-                {formState.errors.morph.message}
-              </span>
-            )}
           </div>
           <div className="pb-1">
             <label htmlFor="gender">성별</label>
@@ -192,13 +192,42 @@ const ReptileInform = () => {
           </div>
           <div className="pb-1">
             <label htmlFor="eatInsect">충식여부</label>
-            <input
-              {...register("eatInsect")}
-              placeholder="충식을 하는지 여부를 선택하세요"
-              type="text"
-              id="eatInsect"
-              className="border rounded w-full py-2 px-3"
-            />
+
+            <div className="flex gap-6 mt-2">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("eatInsect")}
+                  value="예"
+                  type="radio"
+                  id="eatInsect-true"
+                  onChange={() => {
+                    setValue("eatInsect", true);
+                    setEatInsectValue(true);
+                  }}
+                  checked={eatInsectValue === true}
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">예</span>
+              </label>
+
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("eatInsect")}
+                  value="아니오"
+                  type="radio"
+                  id="eatInsect-false"
+                  onChange={() => {
+                    setValue("eatInsect", false);
+                    setEatInsectValue(false);
+                  }}
+                  checked={eatInsectValue === false}
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">아니오</span>
+              </label>
+            </div>
           </div>
           <div className="pb-1">
             <label htmlFor="eating">선호음식</label>
@@ -212,24 +241,46 @@ const ReptileInform = () => {
           </div>
           <div className="pb-1">
             <label htmlFor="mature">성 성숙도</label>
-            <input
-              {...register("mature", {})}
-              placeholder="성 성숙도를 알려주세요"
-              type="text"
-              id="mature"
-              className="border rounded w-full py-2 px-3"
-            />
-            {formState.errors.mature && (
-              <span className="text-red-500">
-                {formState.errors.mature.message}
-              </span>
-            )}
+            <div className="flex gap-6 mt-2">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("mature")}
+                  value="예"
+                  type="radio"
+                  id="mature-true"
+                  onChange={() => {
+                    setValue("mature", true);
+                    setMature(true);
+                  }}
+                  checked={Mature === true}
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">예</span>
+              </label>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  {...register("mature")}
+                  value="아니오"
+                  type="radio"
+                  id="mature-false"
+                  onChange={() => {
+                    setValue("mature", false);
+                    setMature(false);
+                  }}
+                  checked={Mature === false}
+                  className="hidden peer"
+                />
+                <span className="w-5 h-5 border border-gray-300 rounded-md peer-checked:bg-blue-500 peer-checked:border-transparent transition-all"></span>
+                <span className="ml-2">아니오</span>
+              </label>
+            </div>
           </div>
           <div className="pb-1">
             <label htmlFor="weight">몸무게</label>
             <input
               {...register("weight")}
-              placeholder="몸무게를 입력하세요"
+              placeholder="몸무게를 입력하세요 (단위:그램)"
               type="text"
               id="weight"
               className="border rounded w-full py-2 px-3"

@@ -1,6 +1,6 @@
 export interface Users_gecko {
   name: string;
-  birthday: string;
+  birthday: string | null;
   mother: string;
   father: string;
   morph: string | null;
