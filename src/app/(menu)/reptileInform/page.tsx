@@ -12,6 +12,8 @@ const ReptileInform = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [eatInsectValue, setEatInsectValue] = useState<boolean | null>(null);
   const [Mature, setMature] = useState<boolean | null>(null);
+  const [selectedFoods, setSelectedFoods] = useState<string[]>([]);
+  const [selectedHabits, setSelectedHabits] = useState<string[]>([]);
 
   const { mutate } = useMutation({
     mutationFn: async (data: Users_gecko) => {
@@ -46,9 +48,9 @@ const ReptileInform = () => {
         father: "",
         morph: "",
         gender: "미구분",
-        behavior: "",
+        behavior: [],
         eatInsect: false,
-        eating: "",
+        eating: [],
         mature: false,
         weight: "",
         picture: null,
@@ -72,8 +74,31 @@ const ReptileInform = () => {
     }
   };
 
+  const handleFoodCheckbox = (food: string) => {
+    let updatedFoods = [...selectedFoods];
+    if (updatedFoods.includes(food)) {
+      updatedFoods = updatedFoods.filter((item) => item !== food);
+    } else {
+      updatedFoods.push(food);
+    }
+    setSelectedFoods(updatedFoods);
+    setValue("eating", updatedFoods); // 'eating' 필드에 선택된 음식 반영
+  };
+
+  const handleNBehaviorCheckbox = (Habits: string) => {
+    let updatedHabits = [...selectedHabits];
+    if (updatedHabits.includes(Habits)) {
+      updatedHabits = updatedHabits.filter((item) => item !== Habits);
+    } else {
+      updatedHabits.push(Habits);
+    }
+
+    setSelectedHabits(updatedHabits);
+    setValue("behavior", updatedHabits);
+  };
+
   return (
-    <main className="absolute top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex justify-center items-center border rounded-xl w-[330px]">
+    <main className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex justify-center items-center border rounded-xl w-[330px]">
       <section>
         {" "}
         나의 크레 업로드
@@ -180,15 +205,38 @@ const ReptileInform = () => {
               </label>
             </div>
           </div>
+
           <div className="pb-1">
             <label htmlFor="behavior">버릇</label>
-            <input
-              {...register("behavior")}
-              placeholder="버릇이 있다면 입력하세요"
-              type="text"
-              id="behavior"
-              className="border rounded w-full py-2 px-3"
-            />
+            <div className="flex flex-row mt-2 gap-4">
+              {[
+                "소심함",
+                "호기심많음",
+                "우다다다",
+                "숨기 좋아함",
+                "과식",
+                "소식",
+                "충식고집",
+              ].map((Habits) => (
+                <label
+                  key={Habits}
+                  className={`flex items-center justify-center border rounded-lg px-4 py-2 cursor-pointer text-center ${
+                    selectedHabits.includes(Habits)
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200"
+                  } transition-all duration-200`}
+                >
+                  <input
+                    type="checkbox"
+                    value={Habits}
+                    checked={selectedHabits.includes(Habits)}
+                    onChange={() => handleNBehaviorCheckbox(Habits)}
+                    className="hidden"
+                  />
+                  {Habits}
+                </label>
+              ))}
+            </div>
           </div>
           <div className="pb-1">
             <label htmlFor="eatInsect">충식여부</label>
@@ -231,13 +279,29 @@ const ReptileInform = () => {
           </div>
           <div className="pb-1">
             <label htmlFor="eating">선호음식</label>
-            <input
-              {...register("eating")}
-              placeholder="선호 음식을 입력하세요"
-              type="text"
-              id="eating"
-              className="border rounded w-full py-2 px-3"
-            />
+            <div className="flex flex-row mt-2 gap-4">
+              {["밀웜", "귀뚜라미", "인섹트계 슈퍼푸드", "과일계 슈퍼푸드"].map(
+                (food) => (
+                  <label
+                    key={food}
+                    className={`flex items-center justify-center border rounded-lg px-4 py-2 cursor-pointer text-center ${
+                      selectedFoods.includes(food)
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
+                    } transition-all duration-200`}
+                  >
+                    <input
+                      type="checkbox"
+                      value={food}
+                      checked={selectedFoods.includes(food)}
+                      onChange={() => handleFoodCheckbox(food)}
+                      className="hidden"
+                    />
+                    {food}
+                  </label>
+                )
+              )}
+            </div>
           </div>
           <div className="pb-1">
             <label htmlFor="mature">성 성숙도</label>

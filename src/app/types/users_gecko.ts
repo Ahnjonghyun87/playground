@@ -6,8 +6,8 @@ export interface Users_gecko {
   morph: string | null;
   gender: string | null;
   eatInsect: boolean;
-  behavior: string | null;
-  eating: string | null;
+  behavior: string[];
+  eating: string[];
   mature: boolean;
   weight: string | null;
   picture: string | null;
