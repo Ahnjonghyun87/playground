@@ -59,6 +59,9 @@ const HeaderLayoutPage = () => {
   const handleGeckoInform = () => {
     route.push("reptileInform");
   };
+  const handleManageReptile = () => {
+    route.push("manageReptile");
+  };
 
   return (
     <main className="fixed z-50 w-full flex justify-between bg-amber-500">
@@ -77,7 +80,10 @@ const HeaderLayoutPage = () => {
               >
                 개체등록
               </li>
-              <li className="hover:text-amber-700 px-4 whitespace-nowrap">
+              <li
+                className="hover:text-amber-700 px-4 whitespace-nowrap"
+                onClick={handleManageReptile}
+              >
                 개체관리
               </li>
               <li className="hover:text-amber-700 px-4 whitespace-nowrap">
