@@ -1,5 +1,5 @@
 export interface Users_gecko {
-  name: string;
+  reptile_name: string;
   birthday: string | null;
   mother: string;
   father: string;
@@ -12,4 +12,5 @@ export interface Users_gecko {
   weight: string | null;
   picture: string | null;
   vids: string | null;
+  owner_nickname: string | null;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { Users_gecko } from "@/app/types/users_gecko";
+import { useAuthStore } from "@/app/zustand/userAuthStore";
 
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -9,6 +10,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 
 const ReptileInform = () => {
+  const { nickname } = useAuthStore();
+
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [eatInsectValue, setEatInsectValue] = useState<boolean | null>(null);
   const [Mature, setMature] = useState<boolean | null>(null);
@@ -42,7 +45,7 @@ const ReptileInform = () => {
     useForm<Users_gecko>({
       mode: "onChange",
       defaultValues: {
-        name: "",
+        reptile_name: "",
         birthday: "",
         mother: "",
         father: "",
@@ -55,12 +58,14 @@ const ReptileInform = () => {
         weight: "",
         picture: null,
         vids: null,
+        owner_nickname: nickname,
       },
     });
 
   const onSubmit = (data: Users_gecko) => {
     const formattedData = {
       ...data,
+      owner_nickname: nickname ?? "",
       birthday: data.birthday === "" ? null : data.birthday,
     };
 
@@ -107,19 +112,19 @@ const ReptileInform = () => {
           className="grid grid-rows-5 grid-flow-col gap-5 justify-center"
         >
           <div className="pb-1">
-            <label htmlFor="name">이름</label>
+            <label htmlFor="reptile_name">이름</label>
             <input
-              {...register("name", {
+              {...register("reptile_name", {
                 required: "이름은 필수입니다",
               })}
               placeholder="이름을 입력하세요"
               type="text"
-              id="name"
+              id="reptile_name"
               className="border rounded w-full py-2 px-3"
             />
-            {formState.errors.name && (
+            {formState.errors.reptile_name && (
               <span className="text-red-500">
-                {formState.errors.name.message}
+                {formState.errors.reptile_name.message}
               </span>
             )}
           </div>

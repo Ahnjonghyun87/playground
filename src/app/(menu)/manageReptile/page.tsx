@@ -1,5 +1,3 @@
-"use client";
-
 import { Users_gecko } from "@/app/types/users_gecko";
 import { createClient } from "@/app/utils/supabase/client";
 

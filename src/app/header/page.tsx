@@ -6,17 +6,19 @@ import browserClient from "../utils/supabase/client";
 import { useAuthStore } from "../zustand/userAuthStore";
 
 const HeaderLayoutPage = () => {
-  const { isLoggedIn, logOut, logIn } = useAuthStore();
+  const { isLoggedIn, logOut, logIn, nickname } = useAuthStore();
   const route = useRouter();
+
   useEffect(() => {
     const checkSession = async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, error } = await browserClient.auth.getSession();
       if (data?.session) {
         const email = data.session.user.email;
+        const nickname = data.session.user.user_metadata.nickname;
         // email이 존재할 때만 logIn 호출
         if (email) {
-          logIn(email);
+          logIn(email, nickname);
         } else {
           console.error("User email is undefined");
         }
@@ -27,6 +29,10 @@ const HeaderLayoutPage = () => {
 
     checkSession();
   }, [logIn, logOut]);
+
+  useEffect(() => {
+    console.log("닉네임 상태:", nickname);
+  }, [nickname]);
 
   const handleLogOut = async () => {
     try {
@@ -95,9 +101,12 @@ const HeaderLayoutPage = () => {
           ""
         )}
         {isLoggedIn ? (
-          <button type="button" onClick={handleLogOut}>
-            log-out
-          </button>
+          <div>
+            <div>{nickname}님 안녕하세요</div>
+            <button type="button" onClick={handleLogOut}>
+              log-out
+            </button>
+          </div>
         ) : (
           <div className="flex gap-4">
             <button

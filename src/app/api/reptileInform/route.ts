@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const supabase = createClient();
 
   const {
-    name,
+    reptile_name,
     birthday,
     mother,
     father,
@@ -18,9 +18,10 @@ export async function POST(request: Request) {
     weight,
     picture,
     vids,
+    owner_nickname,
   } = (await request.json()) as Users_gecko;
   const response = await supabase.from("users_gecko").insert({
-    name,
+    reptile_name,
     birth_day: birthday,
     mother,
     father,
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
     weight,
     pictures: picture,
     vids,
+    owner_nickname,
   });
 
   if (response.error) {
